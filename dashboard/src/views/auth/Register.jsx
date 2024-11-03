@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useState} from 'react'
 import { Link } from 'react-router-dom';
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 
 const Register = () => {
+  const [state, setState] = useState({ name: "", email: "", password: "" });
+
+  const inputHandle = (e) => {
+    setState({ ...state, [e.target.name] : e.target.value });
+  }
+
+  const submit = (e) => {
+    e.preventDefault();
+  }
+
   return (
     <div className='min-w-screen min-h-screen bg-[#cdcae9] flex items-center justify-center'>
       <div className='w-[350px] text-[#ffffff] p-2'>
@@ -11,18 +21,18 @@ const Register = () => {
           <h2 className='text-xl mb-3 font-bold'>Welcome to Ecommerce</h2>
           <p className='text-sm mb-3 font-medium'>Please Register Your Account</p>
 
-          <form action="">
+          <form onSubmit={submit}>
             <div className='flex flex-col w-full gap-1 mb-3'>
               <label htmlFor="name" className='text-sm font-medium'>Name</label>
-              <input type="text" id='name' className='px-3 py-2 outline-none border-slate-700 text-[#000000] bg-white rounded-md' placeholder='Name' required />
+              <input onChange={inputHandle} value={state.name} type="text" id='name' className='px-3 py-2 outline-none border-slate-700 text-[#000000] bg-white rounded-md' placeholder='Name' required />
             </div>
             <div className='flex flex-col w-full gap-1 mb-3'>
               <label htmlFor="email" className='text-sm font-medium'>Email</label>
-              <input type="email" id='email' className='px-3 py-2 outline-none border-slate-700 text-[#000000] bg-white rounded-md' placeholder='Email' required />
+              <input onChange={inputHandle} value={state.email} type="email" id='email' className='px-3 py-2 outline-none border-slate-700 text-[#000000] bg-white rounded-md' placeholder='Email' required />
             </div>
             <div className='flex flex-col w-full gap-1 mb-3'>
               <label htmlFor="password" className='text-sm font-medium'>Password</label>
-              <input type="password" id='password' className='px-3 py-2 outline-none border-slate-700 text-[#000000] bg-white rounded-md' placeholder='Password' required />
+              <input onChange={inputHandle} value={state.password} type="password" id='password' className='px-3 py-2 outline-none border-slate-700 text-[#000000] bg-white rounded-md' placeholder='Password' required />
             </div>
 
             <div className='flex items-center w-full gap-3 mb-3'>
