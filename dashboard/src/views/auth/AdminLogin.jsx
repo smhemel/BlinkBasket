@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { PropagateLoader } from 'react-spinners';
