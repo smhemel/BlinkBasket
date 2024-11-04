@@ -28,6 +28,7 @@ export const authReducer = createSlice({
         }
     },
     extraReducers: (builder) => {
+        // Here, we get payload from the API(We called this API response)
         builder.addCase(admin_login.pending, (state, { payload }) => {
             state.loader = true;
         })
@@ -37,10 +38,10 @@ export const authReducer = createSlice({
         })
         .addCase(admin_login.fulfilled, (state, { payload }) => {
             state.loader = false;
-            state.successMessage = payload.message
+            state.successMessage = payload.message;
         })
     }
 });
 
-export const {messageClear} = authReducer.actions
+export const {messageClear} = authReducer.actions;
 export default authReducer.reducer;
