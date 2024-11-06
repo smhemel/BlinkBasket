@@ -30,6 +30,7 @@ const Pagination = ({ pageNumber, setPageNumber, totalItem, parPage, showItem })
 
         return btns;
     };
+    
     return (
         <ul className='flex gap-3'>
             {
