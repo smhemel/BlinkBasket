@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LuArrowDownSquare } from "react-icons/lu";
+import Pagination from '../Pagination';
 
 const Orders = () => {
     const [show, setShow] =  useState(false);
@@ -113,6 +114,10 @@ const Orders = () => {
                             </div>  
                         </div>
                     </div>
+                </div>
+
+                <div className='w-full flex justify-end mt-4 bottom-4 right-4'>
+                    <Pagination pageNumber={currentPage} setPageNumber={setCurrentPage} totalItem={50} parPage={parPage} showItem={3} />
                 </div>
             </div>
         </div>
