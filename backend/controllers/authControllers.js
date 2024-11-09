@@ -63,7 +63,7 @@ class authControllers {
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         });
 
-        responseReturn(res,201,{token,message: 'Register Success'});
+        responseReturn(res, 201, { token, message: "Register Success" });
       }
     } catch (error) {
       responseReturn(res, 500, { error: "Internal Server Error" });
