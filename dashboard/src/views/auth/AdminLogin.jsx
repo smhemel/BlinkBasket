@@ -13,12 +13,12 @@ const AdminLogin = () => {
     const [state, setState] = useState({ email: "", password: "" });
 
     const overrideStyle = {
-        display : 'flex',
-        margin : '0 auto',
         height: '22px',
-        justifyContent : 'center',
-        alignItem : 'center'
-    }
+        display: 'flex',
+        margin: '0 auto',
+        alignItems: 'center',
+        justifyContent: 'center'
+    };
 
     useEffect(() => {
         if (errorMessage) {
@@ -34,12 +34,12 @@ const AdminLogin = () => {
 
     const inputHandle = (e) => {
         setState({ ...state, [e.target.name]: e.target.value });
-    }
+    };
 
     const submit = (e) => {
         e.preventDefault();
         dispatch(admin_login(state));
-    }
+    };
 
     return (
         <div className="min-w-screen min-h-screen bg-[#cdcae9] flex justify-center items-center">
