@@ -1,10 +1,28 @@
-import React, { useState} from 'react'
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
+import { PropagateLoader } from 'react-spinners';
+import React, { useEffect, useState} from 'react';
+import { overrideStyle } from '../../utils/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { seller_register, messageClear } from '../../store/Reducers/authReducer';
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [state, setState] = useState({ name: "", email: "", password: "" });
+  const { loader, successMessage, errorMessage } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (successMessage) {
+        toast.success(successMessage);
+        dispatch(messageClear());  
+    }
+    if (errorMessage) {
+        toast.error(errorMessage);
+        dispatch(messageClear());
+    }
+  },[successMessage,errorMessage])
 
   const inputHandle = (e) => {
     setState({ ...state, [e.target.name] : e.target.value });
@@ -12,6 +30,7 @@ const Register = () => {
 
   const submit = (e) => {
     e.preventDefault();
+    dispatch(seller_register(state));
   }
 
   return (
@@ -40,7 +59,11 @@ const Register = () => {
               <label htmlFor="checkbox" className='text-sm font-medium'>I agree to the privacy policy & terms</label>
             </div>
 
-            <button className='w-full bg-slate-800 hover:shadow-blue-300/50 hover:shadow-lg text-white px-5 py-2 mb-3 rounded-md'>Register</button>
+            <button disabled={loader ? true : false} className='bg-slate-800 w-full hover:shadow-blue-300/ hover:shadow-lg text-white rounded-md px-7 py-2 mb-3'>
+              {
+                loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle} /> : 'Sign Up'
+              } 
+            </button>
 
             <div className='flex items-center mb-3 justify-center gap-3'>
               <p className=''>Already have an account?</p>
