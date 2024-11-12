@@ -1,22 +1,17 @@
 import { lazy } from "react";
-const Home = lazy(()=> import('../../views/Home'));
 const Orders = lazy(()=> import('../../views/seller/Orders'));
 const Profile = lazy(()=> import('../../views/seller/Profile'));
 const Products = lazy(()=> import('../../views/seller/Products'));
 const Payments = lazy(()=> import('../../views/seller/Payments'));
 const AddProduct = lazy(()=> import('../../views/seller/AddProduct'));
 const EditProduct = lazy(()=> import('../../views/seller/EditProduct'));
+const OrderDetails = lazy(()=> import('../../views/seller/OrderDetails'));
 const SellerToAdmin = lazy(()=> import('../../views/seller/SellerToAdmin'));
 const SellerDashboard = lazy(()=> import('../../views/seller/SellerDashboard'));
 const DiscountProducts = lazy(()=> import('../../views/seller/DiscountProducts'));
 const SellerToCustomer = lazy(()=> import('../../views/seller/SellerToCustomer'));
 
 export const sellerRoutes = [
-    {
-        path: '/',
-        element: <Home />,
-        ability: ['admin','seller']
-    },
     {
         path: '/seller/dashboard',
         element : <SellerDashboard />,
@@ -51,11 +46,29 @@ export const sellerRoutes = [
         path: '/seller/dashboard/orders',
         element : <Orders />,
         role : 'seller',
-        status : 'active'
+        visibility : ['active','deactive']
+    },
+    {
+        path: '/seller/dashboard/order/details/:orderId',
+        element : <OrderDetails />,
+        role : 'seller',
+        visibility : ['active','deactive']
     },
     {
         path: '/seller/dashboard/payments',
         element : <Payments />,
+        role : 'seller',
+        status : 'active'
+    },
+    {
+        path: '/seller/dashboard/chat-support',
+        element : <SellerToAdmin />,
+        role : 'seller',
+        visibility : ['active','deactive', 'pending']
+    },
+    {
+        path: '/seller/dashboard/chat-customer/:customerId',
+        element : <SellerToCustomer />,
         role : 'seller',
         status : 'active'
     },
@@ -66,15 +79,9 @@ export const sellerRoutes = [
         status : 'active'
     },
     {
-        path: '/seller/dashboard/chat-support',
-        element : <SellerToAdmin />,
-        role : 'seller',
-        status : 'active'
-    },
-    {
         path: '/seller/dashboard/profile',
         element : <Profile />,
         role : 'seller',
         status : 'active'
     }
-]
+];
