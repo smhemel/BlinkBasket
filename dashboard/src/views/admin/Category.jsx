@@ -9,8 +9,19 @@ import Pagination from '../Pagination';
 const Category = () => {
     const [show, setShow] =  useState(false);
     const [parPage, setParPage] = useState(5);
+    const [imageShow, setImage] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
+    const [state, setState] = useState({ name: '', image: '' });
+
+    const imageHandle = (e) => {
+        let files = e.target.files;
+
+        if (files.length > 0) {
+            setImage(URL.createObjectURL(files[0]));
+            setState({ ...state, image: files[0]});
+        }
+    }
 
     return (
         <div className='px-2 lg:px-7 pt-5'>
@@ -72,20 +83,24 @@ const Category = () => {
                             <div className='flex justify-between items-center mb-4'>
                                 <h1 className='text-[#d0d2d6] font-semibold text-xl mb-4 w-full text-center'>Add Category</h1>
                                 <div onClick={() => setShow(false) } className='block lg:hidden'>
-                                    <IoMdCloseCircle /> 
+                                    <IoMdCloseCircle />
                                 </div>
                             </div>
                             <form>
                                 <div className='flex flex-col w-full gap-1 mb-3'>
-                                    <label htmlFor="name"> Category Name</label>
-                                    <input className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 rounded-md text-[#000000]' type="text" id='name' name='category_name' placeholder='Category Name' />
+                                    <label htmlFor="name">Category Name</label>
+                                    <input value={state.name} onChange={(e)=> setState({...state, name: e.target.value})} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 rounded-md text-[#000000]' type="text" id='name' name='category_name' placeholder='Category Name' />
                                 </div>
                                 <div>
                                     <label className='flex justify-center items-center flex-col h-[219px] cursor-pointer border border-dashed hover:border-red-500 w-full border-[#d0d2d6]'  htmlFor="image">
-                                        <span><FaImage/> </span>
-                                        <span>Select Image</span> 
+                                        {
+                                            imageShow ? <img className='w-full h-full' src={imageShow} alt="" /> : <>
+                                                <span><FaImage/> </span>
+                                                <span>Select Image</span>
+                                            </>
+                                        }
                                     </label>
-                                    <input className='hidden' type="file" name="image" id="image" />
+                                    <input onChange={imageHandle} className='hidden' type="file" name="image" id="image" />
                                 </div>
                                 <div>
                                     <button className='bg-red-500 w-full hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2'>Add Category</button>
