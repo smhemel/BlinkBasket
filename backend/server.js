@@ -18,6 +18,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/api", require("./routes/authRoutes"));
+app.use('/api', require('./routes/dashboard/categoryRoutes'));
+
 app.get("/", (req, res) => res.send("Hello Server"));
 
 dbConnect();
