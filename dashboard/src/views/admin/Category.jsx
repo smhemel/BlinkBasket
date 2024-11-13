@@ -1,10 +1,12 @@
 import { FaE } from 'react-icons/fa6';
+import Pagination from '../Pagination';
 import React, { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import { FaImage } from "react-icons/fa";
+import { PropagateLoader } from 'react-spinners';
 import { IoMdCloseCircle } from "react-icons/io";
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import Pagination from '../Pagination';
+import { overrideStyle } from '../../utils/utils';
 
 const Category = () => {
     const [show, setShow] =  useState(false);
@@ -13,6 +15,8 @@ const Category = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
     const [state, setState] = useState({ name: '', image: '' });
+    
+    const loader = false;
 
     const imageHandle = (e) => {
         let files = e.target.files;
@@ -21,7 +25,12 @@ const Category = () => {
             setImage(URL.createObjectURL(files[0]));
             setState({ ...state, image: files[0]});
         }
-    }
+    };
+
+    const add_category = (e) => {
+        e.preventDefault();
+    };
+
 
     return (
         <div className='px-2 lg:px-7 pt-5'>
@@ -86,7 +95,7 @@ const Category = () => {
                                     <IoMdCloseCircle />
                                 </div>
                             </div>
-                            <form>
+                            <form onSubmit={add_category}>
                                 <div className='flex flex-col w-full gap-1 mb-3'>
                                     <label htmlFor="name">Category Name</label>
                                     <input value={state.name} onChange={(e)=> setState({...state, name: e.target.value})} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 rounded-md text-[#000000]' type="text" id='name' name='category_name' placeholder='Category Name' />
@@ -102,8 +111,12 @@ const Category = () => {
                                     </label>
                                     <input onChange={imageHandle} className='hidden' type="file" name="image" id="image" />
                                 </div>
-                                <div>
-                                    <button className='bg-red-500 w-full hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2'>Add Category</button>
+                                <div className='mt-4'>
+                                    <button disabled={loader ? true : false}  className='bg-red-800 w-full hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3'>
+                                        {
+                                            loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle} /> : 'Add Category'
+                                        } 
+                                    </button>
                                 </div>
                             </form>
                         </div>
