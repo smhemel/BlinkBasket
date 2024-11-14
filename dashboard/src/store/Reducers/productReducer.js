@@ -3,13 +3,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const add_product = createAsyncThunk(
     'product/add_product',
-    async({name, image}, {rejectWithValue, fulfillWithValue}) => {
+    async(product, {rejectWithValue, fulfillWithValue}) => {
         try {
-            const formData = new FormData();
-            formData.append('name', name);
-            formData.append('image', image);
-            const {data} = await api.post('/category-add',formData,{withCredentials: true});
-
+            const {data} = await api.post('/product-add', product, {withCredentials: true});
             return fulfillWithValue(data);
         } catch (error) {
             return rejectWithValue(error.response.data);
