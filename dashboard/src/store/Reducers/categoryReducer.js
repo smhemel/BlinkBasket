@@ -75,7 +75,8 @@ export const categoryReducer = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(categoryAdd.pending, (state, {payload}) => {
+        builder
+        .addCase(categoryAdd.pending, (state, {payload}) => {
             state.loader = true;
         })
         .addCase(categoryAdd.rejected, (state, {payload}) => {
