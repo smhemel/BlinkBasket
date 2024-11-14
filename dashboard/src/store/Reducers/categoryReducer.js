@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const categoryAdd = createAsyncThunk(
     'category/categoryAdd',
-    async({ name,image },{rejectWithValue, fulfillWithValue}) => {
+    async({ name, image}, {rejectWithValue, fulfillWithValue}) => {
         try {
             const formData = new FormData();
             formData.append('name', name);
@@ -16,7 +16,19 @@ export const categoryAdd = createAsyncThunk(
         }
     }
 )
-  
+
+export const get_category = createAsyncThunk(
+    'category/get_category',
+    async({ parPage, page, searchValue }, {rejectWithValue, fulfillWithValue}) => {
+        try {
+            const {data} = await api.get(`/category-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,{withCredentials: true});
+
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
  
 export const categoryReducer = createSlice({
     name: 'category',
@@ -24,7 +36,8 @@ export const categoryReducer = createSlice({
         successMessage:  '',
         errorMessage: '',
         loader: false,
-        categorys: [] 
+        categories: [], 
+        totalCategory: 0
     },
     reducers: {
         messageClear: (state,_) => {
@@ -32,19 +45,22 @@ export const categoryReducer = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // .addCase(admin_login.pending, (state, { payload }) => {
-        //     state.loader = true;
-        // })
-        // .addCase(admin_login.rejected, (state, { payload }) => {
-        //     state.loader = false;
-        //     state.errorMessage = payload.error
-        // }) 
-        // .addCase(admin_login.fulfilled, (state, { payload }) => {
-        //     state.loader = false;
-        //     state.successMessage = payload.message
-        //     state.token = payload.token
-        //     state.role = returnRole(payload.token)
-        // })
+        builder.addCase(categoryAdd.pending, (state, { payload }) => {
+            state.loader = true;
+        })
+        .addCase(categoryAdd.rejected, (state, { payload }) => {
+            state.loader = false;
+            state.errorMessage = payload.error;
+        })
+        .addCase(categoryAdd.fulfilled, (state, { payload }) => {
+            state.loader = false;
+            state.successMessage = payload.message
+            state.categories = [...state.categories, payload.category]
+        })
+        .addCase(get_category.fulfilled, (state, { payload }) => {
+            state.totalCategory = payload.totalCategory;
+            state.categories = payload.categories;
+        })
  
     }
 });
