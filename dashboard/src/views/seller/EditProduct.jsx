@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { get_category } from '../../store/Reducers/categoryReducer';
-import { get_product, update_product, messageClear } from '../../store/Reducers/productReducer';
+import { get_product, update_product, messageClear, product_image_update } from '../../store/Reducers/productReducer';
 
 const EditProduct = () => {
     const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const EditProduct = () => {
         if (categories.length > 0) {
             setAllCategory(categories)
         }
-    }, [])
+    }, [categories])
 
     useEffect(() => {
         dispatch(get_product(productId));
@@ -112,6 +112,11 @@ const EditProduct = () => {
 
     const changeImage = (img, files) => {
         if (img.length > 0) {
+            dispatch(product_image_update({
+                oldImage: img,
+                newImage: files[0],
+                productId
+           }));
         }
     };
 
