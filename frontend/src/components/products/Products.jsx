@@ -25,7 +25,7 @@ const Products = ({title}) => {
         },
     };
 
-    const ButtonGroup = () => {
+    const ButtonGroup = ({next,previous}) => {
         return (
             <div className='flex justify-between items-center'>
                 <div className='text-xl font-bold text-slate-600'> {title} </div>

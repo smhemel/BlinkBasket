@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Banner from '../components/Banner';
+import Footer from '../components/Footer';
 import Categories from '../components/Categories';
 import Products from '../components/products/Products';
 import FeatureProducts from '../components/products/FeatureProducts';
@@ -30,6 +31,7 @@ const Home = () => {
                     </div> 
                 </div> 
             </div>
+            <Footer/>
         </div>
     );
 };
