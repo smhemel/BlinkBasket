@@ -7,6 +7,7 @@ import {AiFillStar} from 'react-icons/ai';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {BsFillGridFill} from 'react-icons/bs';
+import Pagination from '../components/Pagination';
 import { IoIosArrowForward } from "react-icons/io";
 import Products from '../components/products/Products';
 import ShopProducts from '../components/products/ShopProducts';
@@ -24,8 +25,10 @@ const Shops = () => {
     ];
 
     const [rating, setRating] = useState('');
+    const [parPage, setParPage] = useState(1);
     const [filter, setFilter] = useState(true);
     const [styles, setStyles] = useState('grid');
+    const [pageNumber, setPageNumber] = useState(1);
     const [state, setState] = useState({values: [50, 1500]});
 
     return (
@@ -162,6 +165,10 @@ const Shops = () => {
 
                                 <div className='pb-8'>
                                     <ShopProducts styles={styles} />  
+                                </div>
+
+                                <div>
+                                    <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalItem={10} parPage={parPage} showItem={Math.floor(10 / 3 )} />
                                 </div>
                             </div> 
                         </div>
