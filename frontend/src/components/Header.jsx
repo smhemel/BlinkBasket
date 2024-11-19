@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation  } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaHeart, FaTwitter, FaCartShopping } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdPhonePortrait, IoIosArrowDown } from "react-icons/io";
 import { FaFacebookF, FaLock, FaUser, FaLinkedin, FaGithub, FaList, FaPhoneAlt } from "react-icons/fa";
 
-const Header = ({categories}) => {
+const Header = () => {
     const user = true;
     const wishlist_count = 3;
+    const {categories} = useSelector(state => state.home);
 
     const {pathname} = useLocation();
     const [category, setCategory] = useState('');

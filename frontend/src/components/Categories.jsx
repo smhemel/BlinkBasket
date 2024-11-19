@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Categories = ({categories}) => {
+const Categories = () => {
+    const {categories} = useSelector(state => state.home);
+
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 }, items: 6
