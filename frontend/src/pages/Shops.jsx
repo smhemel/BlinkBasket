@@ -1,6 +1,6 @@
 import { Range } from 'react-range';
 import {CiStar} from 'react-icons/ci';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {FaThList} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {AiFillStar} from 'react-icons/ai';
@@ -10,26 +10,31 @@ import {BsFillGridFill} from 'react-icons/bs';
 import Pagination from '../components/Pagination';
 import { IoIosArrowForward } from "react-icons/io";
 import Products from '../components/products/Products';
+import { useDispatch, useSelector } from 'react-redux';
 import ShopProducts from '../components/products/ShopProducts';
+import { price_range_product } from '../store/reducers/homeReducer';
 
 const Shops = () => {
-    const categorys = [
-        'Mobiles',
-        'Laptops',
-        'Speakers',
-        'Top wear',
-        'Footwear',
-        'Watches',
-        'Home Decor',
-        'Smart Watches'
-    ];
-
+    const dispatch = useDispatch();
+    const {products, categories, priceRange, latest_product} = useSelector(state => state.home);
+    
     const [rating, setRating] = useState('');
     const [parPage, setParPage] = useState(1);
     const [filter, setFilter] = useState(true);
     const [styles, setStyles] = useState('grid');
     const [pageNumber, setPageNumber] = useState(1);
     const [state, setState] = useState({values: [50, 1500]});
+
+    useEffect(() => { 
+        dispatch(price_range_product());
+    },[])
+
+    useEffect(() => { 
+        setState({
+            values: [priceRange.low, priceRange.high]
+        });
+    },[priceRange])
+
 
     return (
         <div>
@@ -59,10 +64,10 @@ const Shops = () => {
                             <h2 className='text-3xl font-bold mb-3 text-slate-600'>Category </h2>
                             <div className='py-2'>
                                 {
-                                    categorys.map((c,i) => 
-                                        <div className='flex justify-start items-center gap-2 py-1'>
-                                            <input type="checkbox" id={c} />
-                                            <label className='text-slate-600 block cursor-pointer' htmlFor={c}>{c}</label>
+                                    categories.map((c,i) => 
+                                        <div key={i} className='flex justify-start items-center gap-2 py-1'>
+                                            <input type="checkbox" id={c.name} />
+                                            <label className='text-slate-600 block cursor-pointer' htmlFor={c.name}>{c.name}</label>
                                         </div>
                                     )
                                 }
@@ -72,8 +77,8 @@ const Shops = () => {
                                 <h2 className='text-3xl font-bold mb-3 text-slate-600'>Price</h2>
                                 <Range
                                     step={5}
-                                    min={50}
-                                    max={1500}
+                                    min={priceRange.low}
+                                    max={priceRange.high}
                                     values={(state.values)}
                                     onChange={(values) => setState({values})}
                                     renderTrack={({props,children}) => (
@@ -138,7 +143,7 @@ const Shops = () => {
                             </div>
 
                             <div className='py-5 flex flex-col gap-4 md:hidden'>
-                                {/* <Products title='Latest Product' /> */}
+                                <Products title='Latest Product' products={latest_product} />
                             </div>
                         </div>
 
