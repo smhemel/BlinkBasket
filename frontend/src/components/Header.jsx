@@ -5,17 +5,7 @@ import { FaHeart, FaTwitter, FaCartShopping } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdPhonePortrait, IoIosArrowDown } from "react-icons/io";
 import { FaFacebookF, FaLock, FaUser, FaLinkedin, FaGithub, FaList, FaPhoneAlt } from "react-icons/fa";
 
-const Header = () => {
-    const categories = [
-        'Mobiles',
-        'Laptops',
-        'Speakers',
-        'Top wear',
-        'Footwear',
-        'Watches',
-        'Home Decor',
-        'Smart Watches',
-    ];
+const Header = ({categories}) => {
     const user = true;
     const wishlist_count = 3;
 
@@ -226,7 +216,8 @@ const Header = () => {
                                         categories.map((c,i) => {
                                             return (
                                                 <li key={i} className='flex justify-start items-center gap-2 px-[24px] py-[6px]'>
-                                                    <Link className='text-sm block'>{c}</Link>
+                                                    <img src={c.image} className='w-[30px] h-[30px] rounded-full overflow-hidden' alt="" />
+                                                    <Link className='text-sm block'>{c.name}</Link>
                                                 </li>
                                             )
                                         })
@@ -244,7 +235,7 @@ const Header = () => {
                                         <select onChange={(e) => setCategory(e.target.value)} className='w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none' name="" id="">
                                             <option value="">Select Category</option>
                                             {
-                                                categories.map((c, i) => <option value={c}>{c}</option>)
+                                                categories.map((c, i) => <option key={i} value={c}>{c.name}</option>)
                                             }
                                         </select>
                                     </div>
