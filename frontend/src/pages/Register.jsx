@@ -1,16 +1,17 @@
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { FadeLoader } from 'react-spinners';
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
 import { customer_register,messageClear } from '../store/reducers/authReducer';
 
 const Register = () => {
     const dispatch = useDispatch();
-    const {loader, errorMessage, successMessage } = useSelector(state => state.auth);
+    const navigate = useNavigate();
+    const {loader, errorMessage, successMessage, userInfo } = useSelector(state => state.auth);
 
     const [state, setState] = useState({
         name: '',
@@ -27,7 +28,11 @@ const Register = () => {
         if (errorMessage) {
             toast.error(errorMessage);
             dispatch(messageClear());
-        } 
+        }
+
+        if (userInfo) {
+            navigate('/')
+        }
     },[successMessage,errorMessage])
 
     const inputHandle = (e) => {

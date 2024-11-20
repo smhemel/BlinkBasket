@@ -8,6 +8,7 @@ import { FaFacebookF, FaLock, FaUser, FaLinkedin, FaGithub, FaList, FaPhoneAlt }
 
 const Header = () => {
     const navigate = useNavigate();
+    const {userInfo} = useSelector(state => state.auth);
     const {categories} = useSelector(state => state.home);
     
     const user = false;
@@ -56,10 +57,10 @@ const Header = () => {
                                     </ul>
                                 </div>
 
-                                { user ? 
+                                { userInfo ? 
                                     <Link to='/dashboard' className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black'>
                                         <span> <FaUser/> </span>
-                                        <span>S M HEMEL</span>
+                                        <span>{userInfo.name}</span>
                                     </Link> 
                                         : 
                                     <Link to='/login' className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black'>
@@ -148,15 +149,15 @@ const Header = () => {
                                     <li>English</li>
                                 </ul>
                             </div>
-                            { user ? 
+                            { userInfo ? 
                                 <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black' to='/dashboard'>
                                     <span> <FaUser/> </span>
-                                    <span>S M HEMEL</span>
+                                    <span>{ userInfo.name }</span>
                                 </Link> 
                                     : 
                                 <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black' to='/login'>
                                     <span> <FaLock /> </span>
-                                    <span>Login </span>
+                                    <span>Login</span>
                                 </Link>
                             } 
                         </div>
