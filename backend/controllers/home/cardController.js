@@ -8,14 +8,12 @@ class cardController {
 
         try {
             const product = await cardModel.findOne({
-                $and: [{
-                    productId : { $eq: productId }
-                },
-                {
-                    userId: { $eq: userId }
-                }
-            ]
+                $and: [
+                    { productId : { $eq: productId } },
+                    { userId: { $eq: userId } }
+                ]
             });
+
             if (product) {
                 responseReturn(res,404,{error: "Product Already Added To Card" })
             } else {
