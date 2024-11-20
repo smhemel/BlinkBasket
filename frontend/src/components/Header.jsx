@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { MdEmail } from "react-icons/md";
-import { Link, useLocation  } from 'react-router-dom';
+import { Link, useLocation, useNavigate  } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaHeart, FaTwitter, FaCartShopping } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdPhonePortrait, IoIosArrowDown } from "react-icons/io";
 import { FaFacebookF, FaLock, FaUser, FaLinkedin, FaGithub, FaList, FaPhoneAlt } from "react-icons/fa";
 
 const Header = () => {
+    const navigate = useNavigate();
+    const {categories} = useSelector(state => state.home);
+    
     const user = true;
     const wishlist_count = 3;
-    const {categories} = useSelector(state => state.home);
 
     const {pathname} = useLocation();
     const [category, setCategory] = useState('');
@@ -17,6 +19,9 @@ const Header = () => {
     const [showShidebar, setShowShidebar] = useState(true);
     const [categoryShow, setCategoryShow] = useState(true);
 
+    const search = () => {
+        navigate(`/products/search?category=${category}&&value=${searchValue}`);
+    }
 
     return (
         <div className='w-full bg-white'>
@@ -242,7 +247,7 @@ const Header = () => {
                                         </select>
                                     </div>
                                     <input className='w-full relative bg-transparent text-slate-500 outline-0 px-3 h-full' onChange={(e)=> setSearchValue(e.target.value)} type="text" name='' id='' placeholder='What do you need?' />
-                                    <button className='bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white'>Search</button>                            
+                                    <button onClick={search} className='bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase text-white'>Search</button>                            
                                 </div>
                             </div>
 
