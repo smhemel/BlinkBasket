@@ -10,7 +10,7 @@ const Header = () => {
     const navigate = useNavigate();
     const {categories} = useSelector(state => state.home);
     
-    const user = true;
+    const user = false;
     const wishlist_count = 3;
 
     const {pathname} = useLocation();
@@ -57,12 +57,12 @@ const Header = () => {
                                 </div>
 
                                 { user ? 
-                                    <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black' to='/dashboard'>
+                                    <Link to='/dashboard' className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black'>
                                         <span> <FaUser/> </span>
                                         <span>S M HEMEL</span>
                                     </Link> 
                                         : 
-                                    <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black' to='/login'>
+                                    <Link to='/login' className='flex cursor-pointer justify-center items-center gap-2 text-sm text-black'>
                                         <span> <FaLock /> </span>
                                         <span>Login</span>
                                     </Link>
