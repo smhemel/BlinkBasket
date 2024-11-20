@@ -12,29 +12,60 @@ import { IoIosArrowForward } from "react-icons/io";
 import Products from '../components/products/Products';
 import { useDispatch, useSelector } from 'react-redux';
 import ShopProducts from '../components/products/ShopProducts';
-import { price_range_product } from '../store/reducers/homeReducer';
+import { price_range_product, query_products } from '../store/reducers/homeReducer';
 
 const Shops = () => {
     const dispatch = useDispatch();
-    const {products, categories, priceRange, latest_product} = useSelector(state => state.home);
+    const {products, categories, priceRange, latest_product, totalProduct, parPage} = useSelector(state => state.home);
     
     const [rating, setRating] = useState('');
-    const [parPage, setParPage] = useState(1);
     const [filter, setFilter] = useState(true);
     const [styles, setStyles] = useState('grid');
+    const [category, setCategory] = useState('');
+    const [sortPrice, setSortPrice] = useState('');
     const [pageNumber, setPageNumber] = useState(1);
     const [state, setState] = useState({values: [50, 1500]});
 
     useEffect(() => { 
         dispatch(price_range_product());
     },[])
-
+    
     useEffect(() => { 
         setState({
             values: [priceRange.low, priceRange.high]
         });
     },[priceRange])
 
+    useEffect(() => { 
+        dispatch(
+            query_products({
+                low: state.values[0],
+                high: state.values[1],
+                category,
+                rating,
+                sortPrice,
+                pageNumber
+            })
+         );
+    },[state.values[0], state.values[1], category, rating, sortPrice, pageNumber])
+
+    const resetRating = () => {
+        setRating('');
+        dispatch(
+            query_products({
+                low: state.values[0],
+                high: state.values[1],
+                category,
+                rating: '',
+                sortPrice,
+                pageNumber
+            })
+        );
+    }
+    
+    const queryCategory = (e, value) => {
+        e.target.checked ? setCategory(value) : setCategory('');
+    }
 
     return (
         <div>
@@ -66,7 +97,7 @@ const Shops = () => {
                                 {
                                     categories.map((c,i) => 
                                         <div key={i} className='flex justify-start items-center gap-2 py-1'>
-                                            <input type="checkbox" id={c.name} />
+                                            <input checked={category === c.name ? true : false} onChange={(e)=>queryCategory(e,c.name)} type="checkbox" id={c.name} />
                                             <label className='text-slate-600 block cursor-pointer' htmlFor={c.name}>{c.name}</label>
                                         </div>
                                     )
@@ -150,9 +181,9 @@ const Shops = () => {
                         <div className='w-9/12 md-lg:w-8/12 md:w-full'>
                             <div className='pl-8 md:pl-0'>
                                 <div className='py-4 bg-white mb-10 px-3 rounded-md flex justify-between items-start border'>
-                                    <h2 className='text-lg font-medium text-slate-600'>14 Products </h2>
+                                    <h2 className='text-lg font-medium text-slate-600'>({totalProduct}) Products </h2>
                                     <div className='flex justify-center items-center gap-3'>
-                                        <select className='p-1 border outline-0 text-slate-600 font-semibold' name="" id="">
+                                        <select onChange={(e)=> setSortPrice(e.target.value)} className='p-1 border outline-0 text-slate-600 font-semibold' name="" id="">
                                             <option value="">Sort By</option>
                                             <option value="low-to-high">Low to High Price</option>
                                             <option value="high-to-low">High to Low Price </option>
@@ -169,11 +200,13 @@ const Shops = () => {
                                 </div>
 
                                 <div className='pb-8'>
-                                    <ShopProducts styles={styles} />  
+                                    <ShopProducts products={products} styles={styles} />
                                 </div>
 
                                 <div>
-                                    <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalItem={10} parPage={parPage} showItem={Math.floor(10 / 3 )} />
+                                {
+                                    totalProduct > parPage && <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalItem={totalProduct} parPage={parPage} showItem={Math.floor(totalProduct / parPage )} />
+                                }
                                 </div>
                             </div> 
                         </div>
