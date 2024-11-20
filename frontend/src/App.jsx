@@ -8,6 +8,7 @@ import Shipping from './pages/Shipping';
 import Register from './pages/Register';
 import React, { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
+import CategoryShop from './pages/CategoryShop';
 import { get_category } from './store/reducers/homeReducer';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/shops' element={<Shops />} />
         <Route path='/card' element={<Card />} />
         <Route path='/shipping' element={<Shipping />} />
+        <Route path='/products?' element={<CategoryShop />} />
         <Route path='/product/details/:slug' element={<Details />} /> 
       </Routes>
     </BrowserRouter>
