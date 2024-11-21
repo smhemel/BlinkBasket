@@ -9,7 +9,10 @@ import Shipping from './pages/Shipping';
 import Register from './pages/Register';
 import React, { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
+import Dashboard from './pages/Dashboard';
+import ProtectUser from './utils/ProtectUser';
 import CategoryShop from './pages/CategoryShop';
+import Index from './components/dashboard/Index';
 import SearchProducts from './pages/SearchProducts';
 import { get_category } from './store/reducers/homeReducer';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -33,6 +36,11 @@ function App() {
         <Route path='/products?' element={<CategoryShop />} />
         <Route path='/product/details/:slug' element={<Details />} /> 
         <Route path='/products/search?' element={<SearchProducts />} />
+        <Route path='/dashboard' element={<ProtectUser />} >
+          <Route path='' element={<Dashboard />} >
+            <Route path='' element={<Index />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -232,7 +232,7 @@ const Header = () => {
                             >
                                 <ul className='py-2 text-slate-600 font-medium'>
                                     {
-                                        categories.map((c,i) => {
+                                        categories?.map((c,i) => {
                                             return (
                                                 <li key={i} className='flex justify-start items-center gap-2 px-[24px] py-[6px]'>
                                                     <img src={c.image} className='w-[30px] h-[30px] rounded-full overflow-hidden' alt="" />
@@ -254,7 +254,7 @@ const Header = () => {
                                         <select onChange={(e) => setCategory(e.target.value)} className='w-[150px] text-slate-600 font-semibold bg-transparent px-2 h-full outline-0 border-none' name="" id="">
                                             <option value="">Select Category</option>
                                             {
-                                                categories.map((c, i) => <option key={i} value={c}>{c.name}</option>)
+                                                categories?.map((c, i) => <option key={i} value={c}>{c.name}</option>)
                                             }
                                         </select>
                                     </div>

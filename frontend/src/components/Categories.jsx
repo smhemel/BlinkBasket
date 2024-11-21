@@ -48,7 +48,7 @@ const Categories = () => {
                 transitionDuration={500}
             >
             {
-                categories.map((c, i) => 
+                categories?.map((c, i) => 
                     <Link className='h-[185px] border block' key={i} to={`/products?category=${c.name}`}>
                         <div className='w-full h-full relative p-3'>
                             <img src={c.image} alt="" />
