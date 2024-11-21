@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
 import { IoIosArrowForward } from "react-icons/io";
+import { place_order } from '../store/reducers/orderReducer';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Shipping = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { state: {products, price, shipping_fee, items }} = useLocation();
+
+    const {userInfo} = useSelector(state => state.auth);
 
     const [res, setRes] = useState(false);
     const [state, setState] = useState({
@@ -32,6 +38,18 @@ const Shipping = () => {
         if (name && address && phone && post && province && city && area) {
             setRes(true);
         }
+    };
+
+    const placeOrder = () => {
+        dispatch(place_order({
+            price,
+            products,
+            shipping_fee,
+            items,
+            shippingInfo: state,
+            userId: userInfo.id,
+            navigate 
+        }));
     };
 
     return (
@@ -173,7 +191,7 @@ const Shipping = () => {
                                         <span>Total</span>
                                         <span className='text-lg text-[#059473]'>${price + shipping_fee}</span>
                                     </div>
-                                    <button disabled={res ? false : true} className={`px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg ${res ? 'bg-red-500' : 'bg-red-300'}  text-sm text-white uppercase`}>
+                                    <button onClick={placeOrder} disabled={res ? false : true} className={`px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg ${res ? 'bg-red-500' : 'bg-red-300'}  text-sm text-white uppercase`}>
                                         Place Order 
                                     </button>
                                 </div>
