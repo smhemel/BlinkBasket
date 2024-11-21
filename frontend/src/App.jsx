@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectUser from './utils/ProtectUser';
 import CategoryShop from './pages/CategoryShop';
 import Index from './components/dashboard/Index';
+import Orders from './components/dashboard/Orders';
 import SearchProducts from './pages/SearchProducts';
 import { get_category } from './store/reducers/homeReducer';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -39,6 +40,7 @@ function App() {
         <Route path='/dashboard' element={<ProtectUser />} >
           <Route path='' element={<Dashboard />} >
             <Route path='' element={<Index />} />
+            <Route path='my-orders' element={<Orders/>} /> 
           </Route>
         </Route>
       </Routes>
