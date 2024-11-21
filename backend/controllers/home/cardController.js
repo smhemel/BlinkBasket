@@ -181,7 +181,21 @@ class cardController {
                 responseReturn(res, 201, { message: 'Product Add to Wishlist Success' });
             }
         } catch (error) {
-            console.log(error.message)
+            console.log(error.message);
+        }
+    }
+
+    get_wishlist = async (req, res) => {
+        const { userId } = req.params;
+
+        try {
+            const wishlists = await wishlistModel.find({ userId });
+            responseReturn(res, 200, {
+                wishlistCount: wishlists.length,
+                wishlists
+            });
+        } catch (error) {
+            console.log(error.message);
         }
     }
 }
