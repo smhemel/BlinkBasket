@@ -17,6 +17,7 @@ import Orders from './components/dashboard/Orders';
 import SearchProducts from './pages/SearchProducts';
 import Wishlist from './components/dashboard/Wishlist';
 import { get_category } from './store/reducers/homeReducer';
+import OrderDetails from './components/dashboard/OrderDetails';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ChangePassword from './components/dashboard/ChangePassword';
 
@@ -45,6 +46,7 @@ function App() {
             <Route path='my-orders' element={<Orders/>} />
             <Route path='change-password' element={<ChangePassword />} />
             <Route path='my-wishlist' element={<Wishlist />} /> 
+            <Route path='order/details/:orderId' element={<OrderDetails />} />
           </Route>
         </Route>
       </Routes>

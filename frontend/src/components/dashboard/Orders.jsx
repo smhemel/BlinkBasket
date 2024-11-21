@@ -6,7 +6,6 @@ import { get_orders } from '../../store/reducers/orderReducer';
 const Orders = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { orderId } = useParams();
     const {userInfo} = useSelector(state => state.auth);
     const { myOrders } = useSelector(state => state.order);
 
