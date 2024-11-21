@@ -3,6 +3,7 @@ import Card from './pages/Card';
 import Home from "./pages/Home";
 import Shops from './pages/Shops';
 import Login from './pages/Login';
+import Payment from './pages/Payment';
 import Details from './pages/Details';
 import Shipping from './pages/Shipping';
 import Register from './pages/Register';
@@ -28,6 +29,7 @@ function App() {
         <Route path='/shops' element={<Shops />} />
         <Route path='/card' element={<Card />} />
         <Route path='/shipping' element={<Shipping />} />
+        <Route path='/payment' element={<Payment />} />
         <Route path='/products?' element={<CategoryShop />} />
         <Route path='/product/details/:slug' element={<Details />} /> 
         <Route path='/products/search?' element={<SearchProducts />} />
