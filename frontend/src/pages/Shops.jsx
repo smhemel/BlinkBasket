@@ -1,6 +1,5 @@
 import { Range } from 'react-range';
 import {CiStar} from 'react-icons/ci';
-import React, { useState, useEffect } from 'react';
 import {FaThList} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {AiFillStar} from 'react-icons/ai';
@@ -9,6 +8,7 @@ import Footer from '../components/Footer';
 import {BsFillGridFill} from 'react-icons/bs';
 import Pagination from '../components/Pagination';
 import { IoIosArrowForward } from "react-icons/io";
+import React, { useState, useEffect } from 'react';
 import Products from '../components/products/Products';
 import { useDispatch, useSelector } from 'react-redux';
 import ShopProducts from '../components/products/ShopProducts';
@@ -24,7 +24,7 @@ const Shops = () => {
     const [category, setCategory] = useState('');
     const [sortPrice, setSortPrice] = useState('');
     const [pageNumber, setPageNumber] = useState(1);
-    const [state, setState] = useState({values: [50, 1500]});
+    const [state, setState] = useState({values: [50, 100]});
 
     useEffect(() => { 
         dispatch(price_range_product());
@@ -112,7 +112,7 @@ const Shops = () => {
                                     max={priceRange.high}
                                     values={(state.values)}
                                     onChange={(values) => setState({values})}
-                                    renderTrack={({props,children}) => (
+                                    renderTrack={({props, children}) => (
                                         <div {...props} className='w-full h-[6px] bg-slate-200 rounded-full cursor-pointer'>
                                             {children}
                                         </div>

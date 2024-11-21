@@ -1,7 +1,7 @@
 const formidable = require("formidable");
 const cloudinary = require('cloudinary').v2;
 const productModel = require('../../models/productModel');
-const { responseReturn } = require("../../utiles/response");
+const { responseReturn } = require("../../utils/response");
 
 class productController{
     add_product = async(req, res) => {

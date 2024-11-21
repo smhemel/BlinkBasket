@@ -1,7 +1,7 @@
 const { mongo: {ObjectId}} = require('mongoose');
 const cardModel = require('../../models/cardModel');
 const wishlistModel = require('../../models/wishlistModel');
-const { responseReturn } = require('../../utiles/response');
+const { responseReturn } = require('../../utils/response');
 
 class cardController {
    

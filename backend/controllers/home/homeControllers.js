@@ -1,7 +1,7 @@
 const productModel = require('../../models/productModel');
 const categoryModel = require('../../models/categoryModel');
-const { responseReturn } = require("../../utiles/response");
-const queryProducts = require('../../utiles/queryProducts');
+const { responseReturn } = require("../../utils/response");
+const queryProducts = require('../../utils/queryProducts');
 
 class homeControllers {
     formatProduct = (products) => {

@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
-const {createToken} = require('../../utiles/tokenCreate')
+const {createToken} = require('../../utils/tokenCreate')
 const customerModel = require('../../models/customerModel');
-const { responseReturn } = require('../../utiles/response');
+const { responseReturn } = require('../../utils/response');
 const sellerCustomerModel = require('../../models/chat/sellerCustomerModel');
 
 class customerAuthController {
@@ -40,39 +40,39 @@ class customerAuthController {
             
         }
     }
-}
 
-customer_login = async(req, res) => {
-    const { email, password } = req.body;
-       
-    try {
-        const customer = await customerModel.findOne({email}).select('+password');
-
-        if (customer) {
-            const match = await bcrypt.compare(password, customer.password);
-            
-            if (match) {
-                const token = await createToken({
-                    id : customer.id,
-                    name: customer.name,
-                    email: customer.email,
-                    method: customer.method 
-                });
-
-                res.cookie('customerToken', token, {
-                    expires : new Date(Date.now() + 7*24*60*60*1000 )
-                });
-
-                responseReturn(res, 201, {message:  'User Login Success', token});
-            } else {
-                responseReturn(res, 404, {error:  'Password Wrong'});
-            }
-        } else {
-            responseReturn(res, 404, {error:  'Email Not Found'});
-        }
+    customer_login = async(req, res) => {
+        const { email, password } = req.body;
         
-    } catch (error) {
+        try {
+            const customer = await customerModel.findOne({email}).select('+password');
 
+            if (customer) {
+                const match = await bcrypt.compare(password, customer.password);
+
+                if (match) {
+                    const token = await createToken({
+                        id : customer.id,
+                        name: customer.name,
+                        email: customer.email,
+                        method: customer.method
+                    });
+
+                    res.cookie('customerToken', token, {
+                        expires : new Date(Date.now() + 7*24*60*60*1000 )
+                    });
+
+                    responseReturn(res, 201, {message:  'User Login Success', token});
+                } else {
+                    responseReturn(res, 404, {error:  'Password Wrong'});
+                }
+            } else {
+                responseReturn(res, 404, {error:  'Email Not Found'});
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
