@@ -1,12 +1,27 @@
+const http = require("http");
 const cors = require("cors");
 const express = require("express");
+const socket = require("socket.io");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { dbConnect } = require("./utils/db");
 
 const app = express();
-require("dotenv").config();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
+
+const io = socket(server, {
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
+});
+
+io.on("connection", (soc) => {
+  console.log("socket server running..");
+});
+
+require("dotenv").config();
 
 app.use(
   cors({
@@ -18,19 +33,19 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use('/api/home', require('./routes/home/homeRoutes'));
+app.use("/api/home", require("./routes/home/homeRoutes"));
 
 app.use("/api", require("./routes/authRoutes"));
-app.use('/api', require('./routes/home/cardRoutes'));
-app.use('/api', require('./routes/order/orderRoutes'));
-app.use('/api', require('./routes/dashboard/productRoutes'));
-app.use('/api', require('./routes/dashboard/categoryRoutes'));
-app.use('/api', require('./routes/dashboard/sellerRoutes'));
-app.use('/api', require('./routes/home/customerAuthRoutes'));
+app.use("/api", require("./routes/home/cardRoutes"));
+app.use("/api", require("./routes/order/orderRoutes"));
+app.use("/api", require("./routes/dashboard/productRoutes"));
+app.use("/api", require("./routes/dashboard/categoryRoutes"));
+app.use("/api", require("./routes/dashboard/sellerRoutes"));
+app.use("/api", require("./routes/home/customerAuthRoutes"));
 
 app.get("/", (req, res) => res.send("Welcome"));
 
 dbConnect();
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
