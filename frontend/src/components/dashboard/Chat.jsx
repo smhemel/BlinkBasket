@@ -2,19 +2,25 @@ import io from 'socket.io-client'
 import React, { useEffect } from 'react';
 import { GrEmoji } from 'react-icons/gr';
 import { IoSend } from 'react-icons/io5';
-import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { add_friend } from '../../store/reducers/chatReducer';
 import { AiOutlineMessage, AiOutlinePlus } from 'react-icons/ai';
 
 const socket = io('http://localhost:5000');
 
 const Chat = () => {
+    const dispatch = useDispatch();
     const {sellerId} = useParams();
     const {userInfo } = useSelector(state => state.auth);
 
     useEffect(() => {
         socket.emit('add_user', userInfo.id, userInfo)
     },[])
+
+    useEffect(() => {
+        dispatch(add_friend({sellerId: sellerId || "", userId: userInfo.id}));
+    },[sellerId])
 
     return (
         <div className='bg-white p-3 rounded-md'>
