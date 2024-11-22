@@ -11,6 +11,7 @@ import React, { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
 import Dashboard from './pages/Dashboard';
 import ProtectUser from './utils/ProtectUser';
+import Chat from './components/dashboard/Chat';
 import CategoryShop from './pages/CategoryShop';
 import Index from './components/dashboard/Index';
 import Orders from './components/dashboard/Orders';
@@ -47,6 +48,8 @@ function App() {
             <Route path='change-password' element={<ChangePassword />} />
             <Route path='my-wishlist' element={<Wishlist />} /> 
             <Route path='order/details/:orderId' element={<OrderDetails />} />
+            <Route path='chat' element={<Chat/>} /> 
+            <Route path='chat/:sellerId' element={<Chat/>} /> 
           </Route>
         </Route>
       </Routes>
