@@ -1,14 +1,21 @@
-import React from 'react';
+import io from 'socket.io-client'
+import React, { useEffect } from 'react';
 import { GrEmoji } from 'react-icons/gr';
 import { IoSend } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { AiOutlineMessage, AiOutlinePlus } from 'react-icons/ai';
 
+const socket = io('http://localhost:5000');
+
 const Chat = () => {
     const {sellerId} = useParams();
     const {userInfo } = useSelector(state => state.auth);
-    
+
+    useEffect(() => {
+        socket.emit('add_user', userInfo.id, userInfo)
+    },[])
+
     return (
         <div className='bg-white p-3 rounded-md'>
             <div className='w-full flex'>
