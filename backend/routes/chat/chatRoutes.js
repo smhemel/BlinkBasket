@@ -7,5 +7,6 @@ router.post('/chat/customer/send-message-to-seller', chatController.customer_mes
 
 router.get('/chat/seller/get-customers/:sellerId', chatController.get_customers);
 router.get('/chat/seller/get-customer-message/:customerId', authMiddleware, chatController.get_customers_seller_message);
+router.post('/chat/seller/send-message-to-customer', authMiddleware, chatController.seller_message_add);
  
 module.exports = router;
