@@ -141,6 +141,35 @@ class chatController {
             console.log(error);
         }
     }
+
+    get_customers_seller_message = async(req, res) => {
+        const {id} = req;
+        const {customerId} = req.params;
+
+        try {
+            const messages = await sellerCustomerMessage.find({
+                $or: [
+                    {
+                        $and: [
+                            { receverId: {$eq: customerId} },
+                            { senderId: {$eq: id} }
+                        ]
+                    },
+                    {
+                        $and: [
+                            { receverId: {$eq: id} },
+                            { senderId: {$eq: customerId} }
+                        ]
+                    }
+                ]
+           });
+
+           const currentCustomer = await customerModel.findById(customerId);
+           responseReturn(res, 200, {messages, currentCustomer});
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 module.exports = new chatController();

@@ -6,5 +6,6 @@ router.post('/chat/customer/add-customer-friend', chatController.add_customer_fr
 router.post('/chat/customer/send-message-to-seller', chatController.customer_message_add);
 
 router.get('/chat/seller/get-customers/:sellerId', chatController.get_customers);
+router.get('/chat/seller/get-customer-message/:customerId', authMiddleware, chatController.get_customers_seller_message);
  
 module.exports = router;
