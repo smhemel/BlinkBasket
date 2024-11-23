@@ -17,7 +17,9 @@ const io = socket(server, {
   },
 });
 
+var allSeller = [];
 var allCustomer = [];
+
 const addUser = (customerId, socketId, userInfo) => {
   const checkUser = allCustomer.some(u => u.customerId === customerId);
 
@@ -26,10 +28,22 @@ const addUser = (customerId, socketId, userInfo) => {
   }
 };
 
+const addSeller = (sellerId, socketId, userInfo) => {
+  const checkSeller = allSeller.some(u => u.sellerId === sellerId);
+
+  if (!checkSeller) {
+    allSeller.push({sellerId, socketId, userInfo});
+  }
+}
+
 io.on("connection", (soc) => {
   console.log("socket server running..");
   soc.on('add_user',(customerId, userInfo) => {
     addUser(customerId, soc.id, userInfo);   
+  });
+
+  soc.on('add_seller',(sellerId, userInfo) => {
+    addSeller(sellerId, soc.id, userInfo);
   });
 });
 
@@ -37,7 +51,7 @@ require("dotenv").config();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", 'http://localhost:3001'],
     credentials: true,
   })
 );
