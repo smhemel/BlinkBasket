@@ -48,8 +48,8 @@ function App() {
             <Route path='change-password' element={<ChangePassword />} />
             <Route path='my-wishlist' element={<Wishlist />} /> 
             <Route path='order/details/:orderId' element={<OrderDetails />} />
-            <Route path='chat' element={<Chat/>} /> 
-            <Route path='chat/:sellerId' element={<Chat/>} /> 
+            <Route path='chat' element={<Chat />} />
+            <Route path='chat/:sellerId' element={<Chat />} />
           </Route>
         </Route>
       </Routes>
