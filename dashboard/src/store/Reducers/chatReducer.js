@@ -57,6 +57,9 @@ export const chatReducer = createSlice({
         messageClear : (state,_) => {
             state.errorMessage = "";
             state.successMessage = "";
+        },
+        updateMessage: (state, {payload}) => {
+            state.messages = [...state.messages, payload];
         }
     },
     extraReducers: (builder) => {
@@ -77,7 +80,7 @@ export const chatReducer = createSlice({
                 tempFriends[index - 1] = temp;
                 index--;
             }
-                 
+
             state.customers = tempFriends;
             state.messages = [...state.messages, payload.message];
             state.successMessage = 'Message Send Success';
@@ -85,5 +88,5 @@ export const chatReducer = createSlice({
     }
 })
 
-export const {messageClear} = chatReducer.actions;
+export const {messageClear, updateMessage} = chatReducer.actions;
 export default chatReducer.reducer;

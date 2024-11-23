@@ -1,12 +1,14 @@
+import toast from 'react-hot-toast';
 import { FaList } from "react-icons/fa6";
 import { socket } from '../../utils/utils';
 import { IoMdClose } from "react-icons/io";
 import { Link, useParams } from 'react-router-dom';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { get_customer_message, get_customers, messageClear, send_message } from '../../store/Reducers/chatReducer';
+import { get_customer_message, get_customers, messageClear, updateMessage, send_message } from '../../store/Reducers/chatReducer';
 
 const SellerToCustomer = () => {
+    const scrollRef = useRef();
     const dispatch = useDispatch();
     const {customerId} =  useParams();
     const {userInfo} = useSelector(state => state.auth);
@@ -15,10 +17,32 @@ const SellerToCustomer = () => {
     const sellerId = 65;
     const [text, setText] = useState('');
     const [show, setShow] = useState(false);
+    const [receiverMessage, setRecevierMessage] = useState('');
 
     useEffect(() => {
         dispatch(get_customers(userInfo._id));
     },[])
+
+    useEffect(() => {
+        socket.on('customer_message', msg => {
+            setRecevierMessage(msg);
+        });
+    },[])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth'});
+    },[messages])
+
+    useEffect(() => {
+        if (receiverMessage) {
+            if (customerId === receiverMessage.senderId && userInfo._id === receiverMessage.receverId) {
+                dispatch(updateMessage(receiverMessage));
+            } else {
+                toast.success(`${receiverMessage.senderName} Send A message`);
+                dispatch(messageClear());
+            }
+        }
+    },[receiverMessage])
 
     useEffect(() => {
         if (customerId) {
@@ -108,7 +132,7 @@ const SellerToCustomer = () => {
                             { customerId ? messages.map((m,i) => {
                                 if (m.senderId === customerId) {
                                     return (
-                                        <div className='w-full flex justify-start items-center'>
+                                        <div key={i} ref={scrollRef} className='w-full flex justify-start items-center'>
                                             <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                                                 <div>
                                                     <img
@@ -125,7 +149,7 @@ const SellerToCustomer = () => {
                                     )
                                 } else {
                                     return ( 
-                                        <div className='w-full flex justify-end items-center'>
+                                        <div key={i} ref={scrollRef} className='w-full flex justify-end items-center'>
                                             <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                                                 <div className="flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50 text-white py-1 px-2 rounded-sm">
                                                     <span>{m.message}</span>

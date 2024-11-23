@@ -1,15 +1,17 @@
-import io from 'socket.io-client'
+import io from 'socket.io-client';
+import toast from 'react-hot-toast';
 import { GrEmoji } from 'react-icons/gr';
 import { IoSend } from 'react-icons/io5';
-import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineMessage, AiOutlinePlus } from 'react-icons/ai';
-import { add_friend, send_message, successMessage } from '../../store/reducers/chatReducer';
+import { add_friend, messageClear, send_message, updateMessage } from '../../store/reducers/chatReducer';
 
 const socket = io('http://localhost:5000');
 
 const Chat = () => {
+    const scrollRef = useRef();
     const dispatch = useDispatch();
     const {sellerId} = useParams();
     const {userInfo } = useSelector(state => state.auth);
@@ -17,7 +19,7 @@ const Chat = () => {
 
     const [text, setText] = useState('');
     const [activeSeller, setActiveSeller] = useState([]);
-    const [receverMessage, setReceverMessage] = useState('');
+    const [receiverMessage, setRecevierMessage] = useState('');
 
     useEffect(() => {
         socket.emit('add_user', userInfo.id, userInfo)
@@ -25,13 +27,35 @@ const Chat = () => {
 
     useEffect(() => {
         socket.on('seller_message', msg => {
-            setReceverMessage(msg);
+            setRecevierMessage(msg);
         });
 
         socket.on('activeSeller', (sellers) => {
             setActiveSeller(sellers);
         });
     },[])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth'});
+    },[fb_messages])
+
+    useEffect(() => {
+        if (recevierMessage) {
+            if (sellerId === receiverMessage.senderId && userInfo.id === receiverMessage.receverId) {
+                dispatch(updateMessage(receiverMessage));
+            } else {
+                toast.success(receiverMessage.senderName + " " + "Send A message");
+                dispatch(messageClear());
+            }
+        }
+    },[receiverMessage])
+
+    useEffect(() => {
+        if (successMessage) {
+            socket.emit('send_customer_message',fb_messages[fb_messages.length - 1]);
+            dispatch(messageClear());
+        }
+    },[successMessage])
 
     useEffect(() => {
         dispatch(add_friend({sellerId: sellerId || "", userId: userInfo.id}));
@@ -89,7 +113,7 @@ const Chat = () => {
                             { fb_messages.map((m, i) => {
                                 if (currentFd?.fdId !== m.receverId) {
                                     return (
-                                        <div key={i} className='w-full flex gap-2 justify-start items-center text-[14px]'>
+                                        <div key={i} ref={scrollRef} className='w-full flex gap-2 justify-start items-center text-[14px]'>
                                             <img className='w-[30px] h-[30px] ' src="http://localhost:3000/images/user.png" alt="" />
                                             <div className='p-2 bg-purple-500 text-white rounded-md'>
                                                 <span>{m.message}</span>
@@ -98,7 +122,7 @@ const Chat = () => {
                                     )
                                 } else { 
                                     return (
-                                        <div key={i} className='w-full flex gap-2 justify-end items-center text-[14px]'>
+                                        <div key={i} ref={scrollRef} className='w-full flex gap-2 justify-end items-center text-[14px]'>
                                             <img className='w-[30px] h-[30px] ' src="http://localhost:3000/images/user.png" alt="" />
                                             <div className='p-2 bg-cyan-500 text-white rounded-md'>
                                                 <span>{m.message}</span>
