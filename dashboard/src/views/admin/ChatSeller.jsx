@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaRegFaceGrinHearts, FaList } from "react-icons/fa6";
-import { get_sellers, send_message_seller_admin } from '../../store/Reducers/chatReducer';
+import { get_admin_message, get_sellers, send_message_seller_admin } from '../../store/Reducers/chatReducer';
 
 const ChatSeller = () => {
     const dispatch = useDispatch();
@@ -16,6 +16,12 @@ const ChatSeller = () => {
     useEffect(() => {
         dispatch(get_sellers());
     },[])
+
+    useEffect(() => {
+        if (sellerId) {
+            dispatch(get_admin_message(sellerId));
+        }
+    },[sellerId])
 
     const send = (e) => {
         e.preventDefault();
