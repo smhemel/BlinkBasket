@@ -100,21 +100,25 @@ export const remove_wishlist = createAsyncThunk(
 export const cardReducer = createSlice({
     name: 'card',
     initialState:{
-        card_products : [], 
-        card_product_count: 0,
-        wishlist_count : 0,
-        wishlist: [],
         price: 0,
-        errorMessage : '',
-        successMessage: '', 
         shipping_fee: 0,
-        outofstock_products : [],
-        buy_product_item : 0
+        wishlist_count : 0,
+        buy_product_item : 0,
+        card_product_count: 0,
+        errorMessage : '',
+        successMessage: '',
+        wishlist: [],
+        card_products : [],
+        outofstock_products : []
     },
     reducers : {
         messageClear: (state,_) => {
             state.errorMessage = "";
             state.successMessage = "";
+        },
+        reset_count: (state,_) => {
+            state.wishlist_count = 0;
+            state.card_product_count = 0;
         }
     },
     extraReducers: (builder) => {
@@ -162,5 +166,5 @@ export const cardReducer = createSlice({
     }
 })
 
-export const {messageClear} = cardReducer.actions;
+export const {messageClear, reset_count} = cardReducer.actions;
 export default cardReducer.reducer;
