@@ -35,7 +35,7 @@ const SellerToCustomer = () => {
 
     useEffect(() => {
         if (receiverMessage) {
-            if (customerId === receiverMessage.senderId && userInfo._id === receiverMessage.receverId) {
+            if (customerId === receiverMessage.senderId && userInfo._id === receiverMessage.receiverId) {
                 dispatch(updateMessage(receiverMessage));
             } else {
                 toast.success(`${receiverMessage.senderName} Send A message`);
@@ -62,7 +62,7 @@ const SellerToCustomer = () => {
 
         dispatch(send_message({
             senderId: userInfo._id, 
-            receverId: customerId,
+            receiverId: customerId,
             text,
             name: userInfo?.shopInfo?.shopName 
         }));

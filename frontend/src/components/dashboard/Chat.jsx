@@ -41,7 +41,7 @@ const Chat = () => {
 
     useEffect(() => {
         if (recevierMessage) {
-            if (sellerId === receiverMessage.senderId && userInfo.id === receiverMessage.receverId) {
+            if (sellerId === receiverMessage.senderId && userInfo.id === receiverMessage.receiverId) {
                 dispatch(updateMessage(receiverMessage));
             } else {
                 toast.success(receiverMessage.senderName + " " + "Send A message");
@@ -111,7 +111,7 @@ const Chat = () => {
                         <div className='h-[400px] w-full bg-slate-100 p-3 rounded-md'>
                             <div className='w-full h-full overflow-y-auto flex flex-col gap-3'>
                             { fb_messages.map((m, i) => {
-                                if (currentFd?.fdId !== m.receverId) {
+                                if (currentFd?.fdId !== m.receiverId) {
                                     return (
                                         <div key={i} ref={scrollRef} className='w-full flex gap-2 justify-start items-center text-[14px]'>
                                             <img className='w-[30px] h-[30px] ' src="http://localhost:3000/images/user.png" alt="" />

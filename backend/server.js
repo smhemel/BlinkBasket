@@ -63,7 +63,7 @@ io.on("connection", (soc) => {
   });
 
   soc.on('send_seller_message',(msg) => {
-    const customer = findCustomer(msg.receverId);
+    const customer = findCustomer(msg.receiverId);
 
     if (customer !== undefined) {
       soc.to(customer.socketId).emit('seller_message', msg);
@@ -71,7 +71,7 @@ io.on("connection", (soc) => {
   });
 
   soc.on('send_customer_message',(msg) => {
-    const seller = findSeller(msg.receverId);
+    const seller = findSeller(msg.receiverId);
 
     if (seller !== undefined) {
       soc.to(seller.socketId).emit('customer_message', msg);

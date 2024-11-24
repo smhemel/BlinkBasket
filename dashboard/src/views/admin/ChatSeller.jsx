@@ -22,7 +22,7 @@ const ChatSeller = () => {
 
         dispatch(send_message_seller_admin({
             senderId: '', 
-            receverId: sellerId,
+            receiverId: sellerId,
             message: text,
             senderName: 'Admin Support'
         }));

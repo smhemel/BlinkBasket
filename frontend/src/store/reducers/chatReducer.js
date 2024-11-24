@@ -52,7 +52,7 @@ export const chatReducer = createSlice({
         })
         .addCase(send_message.fulfilled, (state, { payload }) => { 
             let tempFriends = state.my_friends;
-            let index = tempFriends.findIndex(f => f.fdId === payload.message.receverId);
+            let index = tempFriends.findIndex(f => f.fdId === payload.message.receiverId);
             while (index > 0) {
                 let temp = tempFriends[index];
                 tempFriends[index] = tempFriends[index - 1];
