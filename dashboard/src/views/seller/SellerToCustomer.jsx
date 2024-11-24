@@ -17,7 +17,7 @@ const SellerToCustomer = () => {
     const sellerId = 65;
     const [text, setText] = useState('');
     const [show, setShow] = useState(false);
-    const [receiverMessage, setRecevierMessage] = useState('');
+    const [receiverMessage, setReceiverMessage] = useState('');
 
     useEffect(() => {
         dispatch(get_customers(userInfo._id));
@@ -25,7 +25,7 @@ const SellerToCustomer = () => {
 
     useEffect(() => {
         socket.on('customer_message', msg => {
-            setRecevierMessage(msg);
+            setReceiverMessage(msg);
         });
     },[])
 
