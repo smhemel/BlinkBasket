@@ -270,6 +270,34 @@ class chatController {
             console.log(error);
         } 
     }
+
+    get_seller_messages = async (req, res) => {
+        const {id} = req;
+        const receiverId = "";
+
+        try {
+            const messages = await adminSellerMessage.find({
+                $or: [
+                    {
+                        $and: [
+                            { receiverId: {$eq: receverId} },
+                            { senderId: {$eq: id} }
+                        ]
+                    },
+                    {
+                        $and: [
+                            { receverId: {$eq: id} },
+                            { senderId: {$eq: receverId} }
+                        ]
+                    }
+                ]
+            });
+     
+            responseReturn(res, 200, {messages});
+        } catch (error) {
+            console.log(error);
+        } 
+     }
 }
 
 module.exports = new chatController();
