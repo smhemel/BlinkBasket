@@ -1,9 +1,10 @@
 import {socket} from '../../utils/utils';
-import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
 import { get_admin_message, get_seller_message, get_sellers, send_message_seller_admin, updateAdminMessage, messageClear } from '../../store/Reducers/chatReducer'
 
 const SellerToAdmin = () => {
+    const scrollRef = useRef();
     const dispatch = useDispatch();
     const {userInfo} = useSelector(state => state.auth);
     const {sellers, activeSeller, seller_admin_message, currentSeller, successMessage} = useSelector(state => state.chat);
@@ -26,6 +27,10 @@ const SellerToAdmin = () => {
             dispatch(messageClear());
         }
     },[successMessage])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth'});
+    },[seller_admin_message])
 
     const send = (e) => {
         e.preventDefault();
@@ -58,7 +63,7 @@ const SellerToAdmin = () => {
                             { seller_admin_message.map((m, i) => {
                                 if (userInfo._id === m.senderId) {
                                     return (
-                                        <div key={i} className='w-full flex justify-start items-center'>
+                                        <div ref={scrollRef} key={i} className='w-full flex justify-start items-center'>
                                             <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
                                                 <div>
                                                     <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src="http://localhost:3001/images/demo.jpg" alt="" />
@@ -72,7 +77,7 @@ const SellerToAdmin = () => {
                 
                                 } else {
                                     return (
-                                        <div key={i} className='w-full flex justify-end items-center'>
+                                        <div ref={scrollRef} key={i} className='w-full flex justify-end items-center'>
                                             <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                                                 <div className="flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50 text-white py-1 px-2 rounded-sm">
                                                     <span>{m.message}</span>
