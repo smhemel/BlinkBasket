@@ -17,6 +17,7 @@ const io = socket(server, {
   },
 });
 
+let admin = {};
 var allSeller = [];
 var allCustomer = [];
 
@@ -71,11 +72,19 @@ io.on("connection", (soc) => {
 
   soc.on('send_customer_message',(msg) => {
     const seller = findSeller(msg.receverId);
-    
+
     if (seller !== undefined) {
       soc.to(seller.socketId).emit('customer_message', msg);
     }
-  })  
+  });
+
+  soc.on('add_admin', (adminInfo) => {
+    delete adminInfo.email;
+    delete adminInfo.password;
+    admin = adminInfo;
+    admin.socketId = soc.id; 
+    io.emit('activeSeller', allSeller);
+  });
 
   soc.on('disconnect',() => {
     remove(soc.id);
