@@ -90,6 +90,14 @@ io.on("connection", (soc) => {
     remove(soc.id);
     io.emit('activeSeller', allSeller);
   });
+
+  soc.on('send_message_admin_to_seller',(msg) => {
+    const seller = findSeller(msg.receiverId);
+    
+    if (seller !== undefined) {
+      soc.to(seller.socketId).emit('receved_admin_message', msg);
+    }
+  });
 });
 
 require("dotenv").config();
