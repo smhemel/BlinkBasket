@@ -29,7 +29,19 @@ export const send_message = createAsyncThunk(
     'chat/send_message',
     async(info, {rejectWithValue, fulfillWithValue}) => {
         try {
-            const {data} = await api.post(`/chat/seller/send-message-to-customer`,info ,{withCredentials: true});
+            const {data} = await api.post(`/chat/seller/send-message-to-customer`, info, {withCredentials: true});
+            return fulfillWithValue(data);
+        } catch (error) { 
+            return rejectWithValue(error.response.data);
+        }
+    }
+)
+
+export const get_sellers = createAsyncThunk(
+    'chat/get_sellers',
+    async(_,{rejectWithValue, fulfillWithValue}) => {
+        try {
+            const {data} = await api.get(`/chat/admin/get-sellers`, {withCredentials: true});
             return fulfillWithValue(data);
         } catch (error) { 
             return rejectWithValue(error.response.data);
@@ -84,6 +96,9 @@ export const chatReducer = createSlice({
             state.customers = tempFriends;
             state.messages = [...state.messages, payload.message];
             state.successMessage = 'Message Send Success';
+        })
+        .addCase(get_sellers.fulfilled, (state, { payload }) => { 
+            state.sellers = payload.sellers;
         })
     }
 })
