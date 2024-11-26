@@ -8,6 +8,7 @@ router.get('/home/coustomer/get-order-details/:orderId', orderController.get_ord
 router.get('/home/coustomer/get-dashboard-data/:userId', orderController.get_customer_dashboard_data);
 
 // Admin
-router.get('/admin/orders',orderController.get_admin_orders)
+router.get('/admin/orders', orderController.get_admin_orders);
+router.get('/admin/order/:orderId', orderController.get_admin_order);
  
 module.exports = router;
