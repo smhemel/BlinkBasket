@@ -217,6 +217,19 @@ class orderController {
             console.log('get admin order details' + error.message);
         }
     }
+
+    admin_order_status_update = async(req, res) => {
+        const { status } = req.body;
+        const { orderId } = req.params;
+
+        try {
+            await customerOrder.findByIdAndUpdate(orderId, {delivery_status: status});
+            responseReturn(res, 200, {message: 'order Status change success'});
+        } catch (error) {
+            responseReturn(res, 500, {message: 'internal server error'});
+        }
+         
+    }
 }
 
 module.exports = new orderController();
