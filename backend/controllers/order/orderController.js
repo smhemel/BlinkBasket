@@ -228,7 +228,27 @@ class orderController {
         } catch (error) {
             responseReturn(res, 500, {message: 'internal server error'});
         }
-         
+    }
+
+    get_seller_orders = async (req, res) => {
+        let {page, searchValue, parPage} = req.query;
+
+        page = parseInt(page);
+        parPage= parseInt(parPage);
+        const skipPage = parPage * (page - 1);
+
+        try {
+            if (searchValue) {
+                
+            } else {
+                const orders = await authOrderModel.find({sellerId}).skip(skipPage).limit(parPage).sort({ createdAt: -1});
+                const totalOrder = await authOrderModel.find({sellerId}).countDocuments();
+                
+                responseReturn(res, 200, {orders, totalOrder});
+            }
+        } catch (error) {
+            responseReturn(res, 500, {message: 'internal server error'});
+        }
     }
 }
 
