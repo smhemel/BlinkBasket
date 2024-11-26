@@ -42,4 +42,16 @@ const sellerSchema = new Schema({
   { timestamps: true }
 );
 
+
+// We can serach it by the name or email
+sellerSchema.index({
+    name: 'text',
+    email: 'text', 
+},{
+    weights: {
+        name: 5, // 4 and 5 are priority. The priority is high then the name field
+        email: 4, 
+    }
+});
+
 module.exports = model("sellers", sellerSchema);    
