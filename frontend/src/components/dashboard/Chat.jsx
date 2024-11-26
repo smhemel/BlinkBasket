@@ -15,7 +15,7 @@ const Chat = () => {
     const dispatch = useDispatch();
     const {sellerId} = useParams();
     const {userInfo } = useSelector(state => state.auth);
-    const {fb_messages, currentFd, my_friends} = useSelector(state => state.chat);
+    const {successMessage, fb_messages, currentFd, my_friends} = useSelector(state => state.chat);
 
     const [text, setText] = useState('');
     const [activeSeller, setActiveSeller] = useState([]);
@@ -40,7 +40,7 @@ const Chat = () => {
     },[fb_messages])
 
     useEffect(() => {
-        if (recevierMessage) {
+        if (receiverMessage) {
             if (sellerId === receiverMessage.senderId && userInfo.id === receiverMessage.receiverId) {
                 dispatch(updateMessage(receiverMessage));
             } else {
