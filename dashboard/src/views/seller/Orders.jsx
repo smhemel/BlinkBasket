@@ -1,13 +1,30 @@
 import Pagination from '../Pagination'; 
-import React, { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import Search from '../components/Search';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import { get_seller_orders } from '../../store/Reducers/orderReducer';
 
 const Orders = () => {
+    const dispatch = useDispatch();
+    const {userInfo} = useSelector(state => state.auth);
+    const {myOrders, totalOrder} = useSelector(state => state.order);
+
     const [parPage, setParPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValue, setSearchValue] = useState('');
+
+    useEffect(() => {
+        const obj = {
+            parPage: parseInt(parPage),
+            page: parseInt(currentPage),
+            searchValue,
+            sellerId: userInfo._id
+        };
+
+        dispatch(get_seller_orders(obj));
+    },[searchValue, currentPage, parPage])
 
     return (
         <div className='px-2 lg:px-7 pt-5'>
@@ -21,21 +38,23 @@ const Orders = () => {
                                 <th scope='col' className='py-3 px-4'>Order Id</th>
                                 <th scope='col' className='py-3 px-4'>Price</th>
                                 <th scope='col' className='py-3 px-4'>Payment Status</th>
-                                <th scope='col' className='py-3 px-4'>Order Status</th> 
+                                <th scope='col' className='py-3 px-4'>Order Status</th>
+                                <th scope='col' className='py-3 px-4'>Date</th>
                                 <th scope='col' className='py-3 px-4'>Action</th> 
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                [1,2,3,4,5].map((d, i) => 
+                                myOrders.map((d, i) => 
                                     <tr key={i}>
-                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>#5455</td>
-                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>$455</td>
-                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>pending </td>
-                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>pending</td> 
+                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>#{d._id}</td>
+                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>${d.price}</td>
+                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{d.payment_status} </td>
+                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{d.delivery_status}</td> 
+                                        <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{d.date}</td> 
                                         <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
                                             <div className='flex justify-start items-center gap-4'>
-                                                <Link to={`/seller/dashboard/order/details/34`} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'> <FaEye/> </Link>
+                                                <Link to={`/seller/dashboard/order/details/${d._id}`} className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'> <FaEye/> </Link>
                                             </div>
                                         </td>
                                     </tr> 
@@ -44,9 +63,11 @@ const Orders = () => {
                         </tbody> 
                     </table> 
                 </div>  
-                <div className='w-full flex justify-end mt-4 bottom-4 right-4'>
-                    <Pagination pageNumber = {currentPage} setPageNumber = {setCurrentPage} totalItem = {50} parPage = {parPage} showItem = {3} />
-                </div>
+                { totalOrder <= parPage ? "" : 
+                    <div className='w-full flex justify-end mt-4 bottom-4 right-4'>
+                        <Pagination pageNumber = {currentPage} setPageNumber = {setCurrentPage} totalItem = {totalOrder} parPage = {parPage} showItem = {3} />
+                    </div>
+                }
             </div>
         </div>
     );
