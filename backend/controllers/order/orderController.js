@@ -243,13 +243,24 @@ class orderController {
             } else {
                 const orders = await authOrderModel.find({sellerId}).skip(skipPage).limit(parPage).sort({ createdAt: -1});
                 const totalOrder = await authOrderModel.find({sellerId}).countDocuments();
-                
+
                 responseReturn(res, 200, {orders, totalOrder});
             }
         } catch (error) {
             responseReturn(res, 500, {message: 'internal server error'});
         }
     }
+
+    get_seller_order = async (req,res) => {
+        const { orderId } = req.params;
+        
+        try {
+            const order = await authOrderModel.findById(orderId);
+            responseReturn(res, 200, { order });
+        } catch (error) {
+            console.log('get seller details error' + error.message);
+        }
+      }
 }
 
 module.exports = new orderController();
