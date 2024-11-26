@@ -12,6 +12,18 @@ export const get_admin_orders = createAsyncThunk(
         }
     }
 )
+
+export const get_admin_order = createAsyncThunk(
+    'orders/get_admin_order',
+    async(orderId, {rejectWithValue, fulfillWithValue}) => { 
+        try { 
+            const {data} = await api.get(`/admin/order/${orderId}`,{withCredentials: true});
+            return fulfillWithValue(data);
+        } catch (error) { 
+            return rejectWithValue(error.response.data);
+        }
+    }
+) 
  
 export const OrderReducer = createSlice({
     name: 'order',
