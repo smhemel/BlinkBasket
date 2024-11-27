@@ -9,6 +9,7 @@ router.get('/home/coustomer/get-dashboard-data/:userId', orderController.get_cus
 
 // Payment
 router.post('/order/create-payment', orderController.create_payment);
+router.get('/order/confirm/:orderId', orderController.order_confirm);
 
 // Admin
 router.get('/admin/orders', orderController.get_admin_orders);
