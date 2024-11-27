@@ -12,6 +12,7 @@ import { useDispatch} from 'react-redux';
 import Dashboard from './pages/Dashboard';
 import ProtectUser from './utils/ProtectUser';
 import Chat from './components/dashboard/Chat';
+import ConfirmOrder from './pages/ConfirmOrder';
 import CategoryShop from './pages/CategoryShop';
 import Index from './components/dashboard/Index';
 import Orders from './components/dashboard/Orders';
@@ -41,6 +42,8 @@ function App() {
         <Route path='/products?' element={<CategoryShop />} />
         <Route path='/product/details/:slug' element={<Details />} /> 
         <Route path='/products/search?' element={<SearchProducts />} />
+        <Route path='/order/confirm?' element={<ConfirmOrder />} />
+
         <Route path='/dashboard' element={<ProtectUser />} >
           <Route path='' element={<Dashboard />} >
             <Route path='' element={<Index />} />
