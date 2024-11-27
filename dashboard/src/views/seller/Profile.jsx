@@ -6,13 +6,13 @@ import { PropagateLoader } from 'react-spinners';
 import { overrideStyle } from '../../utils/utils';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { create_stripe_connect_account } from '../../store/Reducers/sellerReducer';
 import { profile_image_upload, messageClear, profile_info_add } from '../../store/Reducers/authReducer';
 
 const Profile = () => {
     const dispatch = useDispatch();
     const { userInfo, loader, successMessage } = useSelector(state => state.auth);
 
-    const status = 'active';
     const [state, setState] =  useState({
         division: '',
         district: '',
@@ -94,9 +94,9 @@ const Profile = () => {
                                 <div className='flex gap-2'>
                                     <span>Payment Account : </span>
                                     <p>
-                                        { status === 'active' ? 
+                                        { userInfo.payment === 'active' ? 
                                             <span className='bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded'>{userInfo.payment}</span> : 
-                                            <span className='bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded'>Click Active</span>
+                                            <span onClick={()=> dispatch(create_stripe_connect_account())} className='bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded'>Click Active</span>
                                         }
                                     </p>
                                 </div>
