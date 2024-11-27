@@ -251,7 +251,7 @@ class orderController {
         }
     }
 
-    get_seller_order = async (req,res) => {
+    get_seller_order = async (req, res) => {
         const { orderId } = req.params;
         
         try {
@@ -260,7 +260,19 @@ class orderController {
         } catch (error) {
             console.log('get seller details error' + error.message);
         }
-      }
+    }
+
+    seller_order_status_update = async(req, res) => {
+        const { status } = req.body;
+        const {orderId} = req.params;
+
+        try {
+            await authOrderModel.findByIdAndUpdate(orderId, {delivery_status: status});
+            responseReturn(res, 200, {message: 'order status updated successfully'});
+        } catch (error) {
+            responseReturn(res, 500, {message: 'internal server error'});
+        }
+    }
 }
 
 module.exports = new orderController();
