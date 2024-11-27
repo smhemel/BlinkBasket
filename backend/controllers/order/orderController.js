@@ -3,6 +3,7 @@ const { mongo: {ObjectId}} = require('mongoose');
 const cardModel = require('../../models/cardModel');
 const authOrderModel = require('../../models/authOrder');
 const customerOrder = require('../../models/customerOrder');
+const stripe = require('stripe')('sk_test_51QPlfMGSOVK8WpbF8kcliA8uNU1iylSVy0d6JbEJYsXXcvzuZ6Ljf17n2YuKJaeqR98Px8VhXui0aW9U5NX5OaoY00IsbkFyfX');
 
 class orderController {
     paymentCheck = async (id) => {
@@ -271,6 +272,22 @@ class orderController {
             responseReturn(res, 200, {message: 'order status updated successfully'});
         } catch (error) {
             responseReturn(res, 500, {message: 'internal server error'});
+        }
+    }
+
+    create_payment = async (req, res) => {
+        const { price } = req.body;
+
+        try {
+            const payment = await stripe.paymentIntents.create({
+                amount: price * 100,
+                currency: 'usd',
+                automatic_payment_methods: { enabled: true }
+            });
+
+            responseReturn(res, 200, { clientSecret: payment.client_secret });
+        } catch (error) {
+            console.log(error.message);
         }
     }
 }
