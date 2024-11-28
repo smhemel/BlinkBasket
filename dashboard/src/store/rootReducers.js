@@ -4,6 +4,7 @@ import orderReducer from "./Reducers/orderReducer";
 import sellerReducer from "./Reducers/sellerReducer";
 import productReducer from "./Reducers/productReducer";
 import categoryReducer from "./Reducers/categoryReducer";
+import paymentReducer from "./Reducers/paymentReducer";
 
 const rootReducer = {
     auth: authReducer,
@@ -11,7 +12,8 @@ const rootReducer = {
     product: productReducer,
     seller: sellerReducer,
     chat: chatReducer,
-    order: orderReducer
+    order: orderReducer,
+    payment: paymentReducer
 };
 
 export default rootReducer;
