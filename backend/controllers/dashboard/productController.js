@@ -9,8 +9,8 @@ class productController{
         const form = formidable({ multiples: true });
 
         form.parse(req, async(err, field, files) => {
-            const {images} = files;
-            let {name, category,description, stock,price, discount,shopName,brand} = field;
+            let {images} = files;
+            let {name, category, description, stock, price, discount, shopName, brand} = field;
 
             name = name.trim();
             const slug = name.split(' ').join('-');
@@ -24,10 +24,15 @@ class productController{
 
             try {
                 let allImageUrl = [];
+                if (!Array.isArray(images)) {
+                    images = [images]; 
+                } 
+
                 for (let i = 0; i < images.length; i++) {
                     const result = await cloudinary.uploader.upload(images[i].filepath, {folder: 'products'});
-                    allImageUrl = [...allImageUrl, result.url];
+                    allImageUrl.push(result.url);
                 }
+                
                 await productModel.create({
                     sellerId: id,
                     name,
