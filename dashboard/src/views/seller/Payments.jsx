@@ -73,6 +73,19 @@ const Payments = () => {
         );
     };
 
+    const Rows = ({ index, style }) => {
+        return (
+            <div style={style} className='flex text-sm text-white font-medium'>
+                <div className='w-[25%] p-2 whitespace-nowrap'>{index + 1}</div>
+                <div className='w-[25%] p-2 whitespace-nowrap'>${successWithdrows[index]?.amount}</div>
+                <div className='w-[25%] p-2 whitespace-nowrap'>
+                    <span className='py-[1px] px-[5px] bg-slate-300 text-blue-500 rounded-md text-sm'>{successWithdrows[index]?.status}</span>
+                </div>
+                <div className='w-[25%] p-2 whitespace-nowrap'> {moment(successWithdrows[index]?.createdAt).format('LL')} </div>  
+            </div>
+        )
+    }
+
     return (
         <div className='px-2 md:px-7 py-5'>
            <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7 mb-5'>
@@ -135,8 +148,8 @@ const Payments = () => {
                                 <div className='w-[25%] p-2'> Date </div> 
                             </div>
                             {
-                                <List style={{ minWidth : '340px'}} className='List' height={350} itemCount={10} itemSize={35} outerElementType={outerElementType}>
-                                    {Row}
+                                <List style={{ minWidth : '340px'}} className='List' height={350} itemCount={successWithdrows.length} itemSize={35} outerElementType={outerElementType}>
+                                    {Rows}
                                 </List>
                             }
                         </div> 
