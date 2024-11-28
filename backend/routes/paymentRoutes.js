@@ -6,5 +6,7 @@ router.get('/payment/create-stripe-connect-account', authMiddleware, paymentCont
 router.put('/payment/active-stripe-connect-account/:activeCode', authMiddleware, paymentController.active_stripe_connect_account);
 router.get('/payment/seller-payment-details/:sellerId', authMiddleware, paymentController.get_seller_payment_details);
 router.post('/payment/withdrowal-request', authMiddleware, paymentController.withdrowal_request);
+
+router.get('/payment/request', authMiddleware, paymentController.get_payment_request);
  
 module.exports = router;
