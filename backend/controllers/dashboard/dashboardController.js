@@ -89,6 +89,15 @@ class dashboardController {
             responseReturn(res, 500, { error: error.message});
         }
     }
+
+    get_banners = async(req, res) => {
+        try {
+            const banners = await bannerModel.aggregate([{ $sample: {size: 5} }]);
+            responseReturn(res, 200, { banners });
+        } catch (error) {
+            responseReturn(res, 500, { error: error.message});
+        }
+    }
 }
 
 module.exports = new dashboardController();
