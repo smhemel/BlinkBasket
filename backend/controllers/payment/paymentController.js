@@ -1,4 +1,5 @@
 const {v4: uuidv4} = require('uuid');
+const { mongo: {ObjectId}} = require('mongoose');
 const sellerModel = require('../../models/sellerModel');
 const stripeModel = require('../../models/stripeModel');
 const sellerWallet = require('../../models/sellerWallet');
@@ -131,6 +132,26 @@ class paymentController {
             responseReturn(res, 200, {withdrowalRequest });
         } catch (error) {
             responseReturn(res, 500,{ message: 'Internal Server Error'});
+        }
+    }
+
+    payment_request_confirm = async (req, res) => {
+        const {paymentId} = req.body;
+
+        try {
+            const payment = await withdrowRequest.findById(paymentId);
+            const {stripeId} = await stripeModel.findOne({sellerId: new ObjectId(payment.sellerId)});
+            
+            await stripe.transfers.create({
+                amount: payment.amount * 100,
+                currency: 'usd',
+                destination: stripeId
+            });
+             
+            await withdrowRequest.findByIdAndUpdate(paymentId, {status: 'success'});
+            responseReturn(res, 200, {payment, message: 'Request Confirm Success'});
+        } catch (error) { 
+            responseReturn(res, 500, {message: 'Internal Server Error'});
         }
     }
 }
