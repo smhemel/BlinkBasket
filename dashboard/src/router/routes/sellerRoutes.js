@@ -5,6 +5,7 @@ const Orders = lazy(()=> import('../../views/seller/Orders'));
 const Profile = lazy(()=> import('../../views/seller/Profile'));
 const Products = lazy(()=> import('../../views/seller/Products'));
 const Payments = lazy(()=> import('../../views/seller/Payments'));
+const AddBanner = lazy(()=> import('../../views/seller/AddBanner'));
 const AddProduct = lazy(()=> import('../../views/seller/AddProduct'));
 const EditProduct = lazy(()=> import('../../views/seller/EditProduct'));
 const OrderDetails = lazy(()=> import('../../views/seller/OrderDetails'));
@@ -95,5 +96,11 @@ export const sellerRoutes = [
         element : <Profile />,
         role : 'seller',
         visibility : ['active','deactive','pending']
+    },
+    {
+        path: '/seller/dashboard/add-banner/:productId',
+        element : <AddBanner />,
+        role : 'seller',
+        status : 'active'
     }
 ];
