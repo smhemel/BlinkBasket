@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
 import { MdEmail } from "react-icons/md";
-import { Link, useLocation, useNavigate  } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate  } from 'react-router-dom';
 import { FaHeart, FaTwitter, FaCartShopping } from "react-icons/fa6";
 import { IoMdArrowDropdown, IoMdPhonePortrait, IoIosArrowDown } from "react-icons/io";
+import { get_card_products, get_wishlist_products } from '../store/reducers/cardReducer';
 import { FaFacebookF, FaLock, FaUser, FaLinkedin, FaGithub, FaList, FaPhoneAlt } from "react-icons/fa";
 
 const Header = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const {userInfo} = useSelector(state => state.auth);
     const {categories} = useSelector(state => state.home);
@@ -17,6 +19,13 @@ const Header = () => {
     const [searchValue, setSearchValue] = useState('');
     const [showShidebar, setShowShidebar] = useState(true);
     const [categoryShow, setCategoryShow] = useState(true);
+
+    useEffect(() => {
+        if (userInfo) {
+            dispatch(get_card_products(userInfo.id));
+            dispatch(get_wishlist_products(userInfo.id));
+        }  
+    },[userInfo])
 
     const search = () => {
         navigate(`/products/search?category=${category}&&value=${searchValue}`);
@@ -116,7 +125,7 @@ const Header = () => {
 
                                 <div className='flex md-lg:hidden justify-center items-center gap-5'>
                                     <div className='flex justify-center gap-5'>
-                                        <div className='relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]'>
+                                        <div onClick={() => navigate(userInfo ? '/dashboard/my-wishlist' : '/login') } className='relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]'>
                                             <span className='text-xl text-green-500'><FaHeart /></span>
                                             { wishlist_count !== 0 && 
                                                 <div className='w-[20px] h-[20px] absolute bg-red-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px] '>
